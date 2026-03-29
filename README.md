@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # FailureIQ OpenEnv
 
 FailureIQ simulates a real-world debugging task: diagnosing the true root cause from noisy, wrapped stack traces. In production systems, logs often include multiple wrapper exceptions that distract engineers from the deepest "Caused by" error. This environment trains and evaluates agents on that exact skill.
@@ -120,4 +119,3 @@ openenv validate
 =======
 # failureiq-openenv
 AI-powered incident debugging environment that identifies root causes from noisy logs and proposes fixes using structured reasoning.
->>>>>>> d4bcecc6a5166d3a7ed69f5bb2eb6acb54f703fd
