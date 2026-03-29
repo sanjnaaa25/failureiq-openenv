@@ -1,0 +1,23 @@
+name: failureiq
+version: 0.1.0
+description: Root cause analysis from noisy, wrapped stack traces
+entrypoint: failureiq.env:FailureIQEnv
+
+action_space: failureiq.models:FailureIQAction
+observation_space: failureiq.models:FailureIQObservation
+reward_space: failureiq.models:FailureIQReward
+
+metadata:
+  author: Sanjna Deva
+  tags:
+    - openenv
+    - logs
+    - debugging
+
+tasks:
+  - id: code_null_pointer
+    difficulty: easy
+  - id: config_oom
+    difficulty: medium
+  - id: data_constraint
+    difficulty: hard
