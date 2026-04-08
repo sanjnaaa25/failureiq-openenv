@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 ---
 title: failureiq-env
 emoji: 🧠
@@ -11,7 +9,6 @@ app_file: app.py
 pinned: false
 ---
 
->>>>>>> 7f7913b (final clean submission)
 # FailureIQ OpenEnv
 
 FailureIQ simulates a real-world debugging task: diagnosing the true root cause from noisy, wrapped stack traces. In production systems, logs often include multiple wrapper exceptions that distract engineers from the deepest "Caused by" error. This environment trains and evaluates agents on that exact skill.
@@ -142,9 +139,6 @@ Run the OpenEnv validator (if available in your setup):
 ```bash
 openenv validate
 ```
-<<<<<<< HEAD
-=======
+
 # failureiq-openenv
 AI-powered incident debugging environment that identifies root causes from noisy logs and proposes fixes using structured reasoning.
-=======
->>>>>>> 7f7913b (final clean submission)
