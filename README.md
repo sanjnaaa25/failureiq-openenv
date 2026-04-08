@@ -150,4 +150,4 @@ openenv validate
 ```
 
 # failureiq-openenv
-AI-powered incident debugging environment that identifies root causes from noisy logs and proposes fixes using structured reasoning.
+AI-powered incident debugging environment that identifies root causes from noisy logs and proposes fixes using structured reasoning step by step.
