@@ -11,9 +11,18 @@ pinned: false
 
 # FailureIQ OpenEnv
 
+FailureIQ is an AI evaluation environment that tests whether agents can identify the true root cause hidden inside noisy, misleading production logs — a task engineers face daily in real systems.
+
 FailureIQ simulates a real-world debugging task: diagnosing the true root cause from noisy, wrapped stack traces. In production systems, logs often include multiple wrapper exceptions that distract engineers from the deepest "Caused by" error. This environment trains and evaluates agents on that exact skill.
 
 > The environment simulates real-world debugging scenarios where logs contain multiple layers of exception wrapping. Agents must identify the true root cause by filtering noisy stack traces and prioritizing the deepest causal signal.
+
+## Why this matters
+- Logs are noisy and full of wrapper exceptions that obscure the real issue.
+- The true root cause is often buried deep in stack traces.
+- Misdiagnosis wastes engineering time and leads to repeated incidents.
+
+FailureIQ evaluates whether an agent can cut through this noise and reason toward the correct root cause — not just surface-level errors.
 
 ## Why this is real-world
 - Engineers routinely face nested exceptions that hide the real issue.
