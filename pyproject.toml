@@ -1,0 +1,17 @@
+[project]
+name = "failureiq-openenv"
+version = "0.1.0"
+description = "AI-powered debugging environment for root cause analysis in noisy logs"
+authors = [{ name = "Sanjna Deva" }]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "pydantic",
+    "openai",
+    "openenv",
+    "python-dotenv"
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
