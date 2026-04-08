@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+=======
+---
+title: failureiq-env
+emoji: 🧠
+colorFrom: indigo
+colorTo: pink
+sdk: docker
+app_port: 7860
+app_file: app.py
+pinned: false
+---
+
+>>>>>>> 7f7913b (final clean submission)
 # FailureIQ OpenEnv
 
 FailureIQ simulates a real-world debugging task: diagnosing the true root cause from noisy, wrapped stack traces. In production systems, logs often include multiple wrapper exceptions that distract engineers from the deepest "Caused by" error. This environment trains and evaluates agents on that exact skill.
@@ -77,6 +91,11 @@ pip install -r requirements.txt
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
+## Demo UI
+Open the demo interface at:
+- http://localhost:8000/
+- http://localhost:8000/ui
+
 ## Example Usage
 ```bash
 curl -X POST http://localhost:8000/reset
@@ -104,11 +123,18 @@ python inference.py
 
 The script prints per-task scores and the average score.
 
+## Baseline Scores
+Run `python inference.py` once and paste the numbers here:
+- code_null_pointer: 1.00
+- config_oom: 1.00
+- data_constraint: 1.00
+- Average: 1.00
+
 ## Deployment (HF Space + Docker)
 Build and run:
 ```bash
 docker build -t failureiq .
-docker run -p 8000:8000 failureiq
+docker run -p 8000:7860 failureiq
 ```
 
 ## Validation
@@ -116,6 +142,9 @@ Run the OpenEnv validator (if available in your setup):
 ```bash
 openenv validate
 ```
+<<<<<<< HEAD
 =======
 # failureiq-openenv
 AI-powered incident debugging environment that identifies root causes from noisy logs and proposes fixes using structured reasoning.
+=======
+>>>>>>> 7f7913b (final clean submission)

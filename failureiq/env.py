@@ -193,17 +193,36 @@ class FailureIQEnv:
     def _rank_logs(self, log_text: str, top_k: int) -> List[str]:
         lines = [line for line in log_text.splitlines() if line.strip()]
         scored = []
+        depth = 0
         for line in lines:
-            score = 0
-            lowered = line.lower()
+            score = 0.0
+            lowered = line.lower().strip()
+
             if "caused by" in lowered:
-                score += 3
+                depth += 1
+                score += 3.0
+            score += min(2.0, 0.5 * depth)
+
             if "error" in lowered:
-                score += 2
+                score += 2.0
             if "exception" in lowered:
-                score += 2
+                score += 2.0
             if "outofmemory" in lowered or "nullpointer" in lowered or "psql" in lowered:
-                score += 2
+                score += 2.0
+
+            if lowered.startswith("info") or lowered.startswith("warn"):
+                score -= 1.0
+
+            if " at " in lowered or lowered.startswith("at "):
+                score += 1.0
+
+            if ".java:" in lowered or ".scala:" in lowered or ".py:" in lowered:
+                score += 1.5
+
+            if ":" in lowered and len(lowered) > 40:
+                score += 0.5
+
             scored.append((score, line))
+
         scored.sort(key=lambda item: item[0], reverse=True)
         return [line for _, line in scored[: max(1, min(top_k, len(scored)))]]

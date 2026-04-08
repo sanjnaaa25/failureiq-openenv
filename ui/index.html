@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FailureIQ Scenario Lab</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
+
+      :root {
+        --bg: #0d0f1a;
+        --bg-2: #13162a;
+        --card: rgba(255, 255, 255, 0.06);
+        --card-strong: rgba(255, 255, 255, 0.12);
+        --text: #f4f6ff;
+        --muted: #c3c7e6;
+        --accent: #2fe6a8;
+        --accent-2: #7aa6ff;
+        --danger: #ff6a6a;
+        --shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        color: var(--text);
+        font-family: 'Space Grotesk', system-ui, sans-serif;
+        background: radial-gradient(circle at top, #1e2140 0%, var(--bg) 50%, #0b0d15 100%);
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 32px 20px 60px;
+      }
+
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 28px;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+        margin: 0;
+        letter-spacing: -0.02em;
+      }
+
+      .subtitle {
+        color: var(--muted);
+        max-width: 520px;
+        line-height: 1.5;
+      }
+
+      .badge {
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(47, 230, 168, 0.15);
+        color: var(--accent);
+        font-weight: 600;
+        font-size: 0.85rem;
+        border: 1px solid rgba(47, 230, 168, 0.3);
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 18px;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 18px;
+        padding: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: var(--shadow);
+      }
+
+      .card h3 {
+        margin: 0 0 8px;
+      }
+
+      .scenario-btn {
+        width: 100%;
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        background: linear-gradient(135deg, rgba(122, 166, 255, 0.18), rgba(47, 230, 168, 0.2));
+        color: var(--text);
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .scenario-btn:hover {
+        border-color: rgba(122, 166, 255, 0.4);
+        transform: translateY(-2px);
+      }
+
+      .panel {
+        background: var(--card-strong);
+        padding: 16px;
+        border-radius: 14px;
+        min-height: 140px;
+      }
+
+      .mono {
+        font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .timeline {
+        display: grid;
+        gap: 12px;
+        margin-top: 16px;
+      }
+
+      .step {
+        background: rgba(15, 18, 35, 0.9);
+        border-radius: 12px;
+        padding: 12px 14px;
+        border: 1px solid rgba(122, 166, 255, 0.25);
+      }
+
+      .step-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font-weight: 600;
+      }
+
+      .pill {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: rgba(122, 166, 255, 0.18);
+        color: var(--accent-2);
+      }
+
+      .reward {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .danger {
+        color: var(--danger);
+        font-weight: 600;
+      }
+
+      footer {
+        margin-top: 28px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 720px) {
+        h1 {
+          font-size: 1.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div>
+          <div class="badge">FailureIQ Scenario Lab</div>
+          <h1>Observe -> Act -> Reward</h1>
+          <p class="subtitle">
+            Click a scenario to watch the full multi-step agent flow: fetch logs, rank, classify,
+            request context, propose fix, and submit the final root cause.
+          </p>
+        </div>
+        <div class="panel mono" id="summary">Select a scenario to start.</div>
+      </header>
+
+      <section class="grid">
+        <div class="card">
+          <h3>Code Issue</h3>
+          <p class="subtitle">NullPointerException hidden under wrapper exceptions.</p>
+          <button class="scenario-btn" onclick="runScenario('code_null_pointer')">Run code scenario</button>
+        </div>
+        <div class="card">
+          <h3>Config Issue</h3>
+          <p class="subtitle">Out-of-memory hidden behind timeout/executor loss.</p>
+          <button class="scenario-btn" onclick="runScenario('config_oom')">Run config scenario</button>
+        </div>
+        <div class="card">
+          <h3>Data Issue</h3>
+          <p class="subtitle">Schema constraint violation on varchar length.</p>
+          <button class="scenario-btn" onclick="runScenario('data_constraint')">Run data scenario</button>
+        </div>
+      </section>
+
+      <section class="card" style="margin-top: 24px;">
+        <h3>Step Timeline</h3>
+        <div class="timeline" id="timeline"></div>
+      </section>
+
+      <footer>
+        Tip: The UI uses the same API endpoints the judge will hit. This is the cleanest demo for your
+        pitch video or submission walkthrough.
+      </footer>
+    </div>
+
+    <script>
+      const summary = document.getElementById('summary');
+      const timeline = document.getElementById('timeline');
+
+      const scenarios = {
+        code_null_pointer: {
+          label: 'Code / NullPointerException',
+          category: 'code',
+          root: 'NullPointerException in DataProcessor.processBatch',
+          fix: 'Add null guard before region.equals(...) or use Optional',
+          validation: 'Add a unit test for missing metadata and re-run batch'
+        },
+        config_oom: {
+          label: 'Config / OutOfMemoryError',
+          category: 'config',
+          root: 'OutOfMemoryError: Java heap space',
+          fix: 'Increase spark.executor.memory to 6g and tune partitions',
+          validation: 'Re-run job and monitor executor memory usage'
+        },
+        data_constraint: {
+          label: 'Data / varchar length',
+          category: 'data',
+          root: 'Value too long for VARCHAR(30)',
+          fix: 'Validate last_name length <= 30 or widen column',
+          validation: 'Backfill failed records and re-run insert'
+        }
+      };
+
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+      function addStep(step, reward, obs, info) {
+        const div = document.createElement('div');
+        div.className = 'step';
+        const rewardClass = reward < 0 ? 'danger' : 'reward';
+        div.innerHTML = `
+          <div class="step-head">
+            <span>${step}</span>
+            <span class="pill">phase: ${obs.phase}</span>
+          </div>
+          <div class="mono">${obs.message}</div>
+          <div class="mono">reward: <span class="${rewardClass}">${reward.toFixed(2)}</span></div>
+          <div class="mono">score: ${info?.score?.toFixed(2) ?? '0.00'}</div>
+        `;
+        timeline.appendChild(div);
+      }
+
+      async function callReset(taskId) {
+        const res = await fetch(`/reset?task_id=${taskId}`);
+        const data = await res.json();
+        return data.observation;
+      }
+
+      async function callStep(params) {
+        const query = new URLSearchParams(params).toString();
+        const res = await fetch(`/step?${query}`);
+        const data = await res.json();
+        return data;
+      }
+
+      async function runScenario(taskId) {
+        const scenario = scenarios[taskId];
+        timeline.innerHTML = '';
+        summary.textContent = `Running: ${scenario.label}`;
+
+        const obs0 = await callReset(taskId);
+        addStep('reset()', 0, obs0, { score: 0 });
+
+        await sleep(250);
+        let step = await callStep({ action_type: 'fetch_logs' });
+        addStep('fetch_logs', step.reward.value, step.observation, step.info);
+
+        await sleep(250);
+        step = await callStep({ action_type: 'rank_logs', top_k: 8 });
+        addStep('rank_logs', step.reward.value, step.observation, step.info);
+
+        await sleep(250);
+        step = await callStep({ action_type: 'classify_issue', category: scenario.category });
+        addStep('classify_issue', step.reward.value, step.observation, step.info);
+
+        await sleep(250);
+        const requestAction = scenario.category === 'code'
+          ? 'request_code'
+          : scenario.category === 'config'
+          ? 'request_config'
+          : 'request_data';
+        step = await callStep({ action_type: requestAction });
+        addStep(requestAction, step.reward.value, step.observation, step.info);
+
+        await sleep(250);
+        step = await callStep({
+          action_type: 'propose_fix',
+          response: `${scenario.fix}. Validation: ${scenario.validation}`
+        });
+        addStep('propose_fix', step.reward.value, step.observation, step.info);
+
+        await sleep(250);
+        step = await callStep({ action_type: 'submit_solution', response: scenario.root });
+        addStep('submit_solution', step.reward.value, step.observation, step.info);
+
+        summary.textContent = `Done: ${scenario.label}. Final score ${step.info.score.toFixed(2)}`;
+      }
+    </script>
+  </body>
+</html>
