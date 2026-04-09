@@ -20,6 +20,11 @@ class FailureIQEnv:
         self._phase = "need_logs"
         self._classification: Optional[str] = None
         self._last_ranked: Optional[List[str]] = None
+        self._score_epsilon = 0.01
+
+    def _clamp_score(self, value: float) -> float:
+        """Keep scores strictly within (0, 1) for validator compliance."""
+        return max(self._score_epsilon, min(1.0 - self._score_epsilon, value))
 
     def _select_task(self, task_id: Optional[str]) -> TaskSpec:
         if task_id:
@@ -106,7 +111,7 @@ class FailureIQEnv:
             reward_value = score
             self._done = True
             done = True
-            self._best_score = max(0.0, min(1.0, self._best_score + reward_value))
+            self._best_score = self._clamp_score(self._best_score + reward_value)
             info = FailureIQInfo(
                 score=self._best_score,
                 done_reason="solved" if score >= 0.95 else "submitted",
@@ -125,7 +130,7 @@ class FailureIQEnv:
         if done and action.action_type != "submit_solution":
             reward_value = max(-0.2, reward_value - 0.2)
 
-        self._best_score = max(0.0, min(1.0, self._best_score + reward_value))
+        self._best_score = self._clamp_score(self._best_score + reward_value)
         info = FailureIQInfo(
             score=self._best_score,
             done_reason="max_steps" if done else None,
