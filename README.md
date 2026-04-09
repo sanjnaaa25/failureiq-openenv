@@ -131,10 +131,10 @@ The script prints per-task scores and the average score.
 
 ## Baseline Scores
 Run `python inference.py` once and paste the numbers here:
-- code_null_pointer: 1.00
-- config_oom: 1.00
-- data_constraint: 1.00
-- Average: 1.00
+- code_null_pointer: 0.99
+- config_oom: 0.99
+- data_constraint: 0.99
+- Average: 0.99
 
 ## Deployment (HF Space + Docker)
 Build and run:
@@ -150,4 +150,4 @@ openenv validate
 ```
 
 # failureiq-openenv
-AI-powered incident debugging environment that identifies root causes from noisy logs and proposes fixes using structured reasoning step by step.
+AI-powered incident debugging environment that identifies root causes from noisy logs and proposes fixes using structured reasoning.
