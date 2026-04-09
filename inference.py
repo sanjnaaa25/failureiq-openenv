@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_BASE_URL = os.getenv("API_BASE_URL", "https://router.huggingface.co/v1")
-MODEL_NAME = os.getenv("MODEL_NAME", "YOUR_MODEL")
+MODEL_NAME = os.getenv("MODEL_NAME") or "Qwen/Qwen2.5-72B-Instruct"
 HF_TOKEN = os.getenv("HF_TOKEN")
 # Optional — only when using from_docker_image()
 LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")
@@ -67,12 +67,7 @@ def log_end(success: bool, steps: int, score: float, rewards: List[float]) -> No
 
 
 def run() -> Dict[str, float]:
-    if not MODEL_NAME or MODEL_NAME == "YOUR_MODEL":
-        raise RuntimeError("MODEL_NAME is not set")
-    if not HF_TOKEN:
-        raise RuntimeError("HF_TOKEN is not set")
-
-    client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN)
+    client = OpenAI(base_url=API_BASE_URL, api_key=HF_TOKEN) if HF_TOKEN else None
     env = FailureIQEnv()
 
     scores: Dict[str, float] = {}
@@ -92,6 +87,8 @@ def run() -> Dict[str, float]:
 
         prompt = build_prompt(obs.log or "")
         try:
+            if client is None:
+                raise RuntimeError("LLM disabled")
             response = client.chat.completions.create(
                 model=MODEL_NAME,
                 temperature=TEMPERATURE,
